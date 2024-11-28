@@ -18,14 +18,26 @@ export const Grid = ({ onCellClick, enemies }) => {
                   width: 30,
                   height: 30,
                   border: "1px solid black",
-                  backgroundColor: enemy
-                    ? "red" // Враг
-                    : cell === 1
-                    ? "gray" // Башня
-                    : "white", // Пустая клетка
+                  backgroundColor: cell === 1 ? "gray" : "white", // Башни
+                  position: "relative",
                 }}
                 onClick={() => onCellClick(rowIndex, colIndex)}
-              ></div>
+              >
+                {enemy && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      color: "red",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {enemy.health}
+                  </span>
+                )}
+              </div>
             );
           })}
         </div>

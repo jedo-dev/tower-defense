@@ -13,7 +13,7 @@ const enemySlice = createSlice({
   initialState,
   reducers: {
     moveEnemies(state, action) {
-      const { grid } = action.payload; // Передаем актуальную сетку
+      const { grid } = action.payload;
       state.enemies = state.enemies.map((enemy) => {
         const path = aStarPathfinding(
           { x: enemy.x, y: enemy.y },
@@ -26,8 +26,22 @@ const enemySlice = createSlice({
         return enemy;
       });
     },
+    applyDamage(state, action) {
+      const { towers } = action.payload;
+      state.enemies = state.enemies.map((enemy) => {
+        const inRange = towers.some((tower) => {
+          const dx = Math.abs(tower.x - enemy.x);
+          const dy = Math.abs(tower.y - enemy.y);
+          return Math.sqrt(dx ** 2 + dy ** 2) <= 1.5; // Радиус атаки
+        });
+        if (inRange) {
+          return { ...enemy, health: Math.max(0, enemy.health - 10) }; // Наносим урон
+        }
+        return enemy;
+      }).filter((enemy) => enemy.health > 0); // Удаляем врагов с нулевым здоровьем
+    },
   },
 });
 
-export const { moveEnemies } = enemySlice.actions;
+export const { moveEnemies, applyDamage } = enemySlice.actions;
 export default enemySlice.reducer;
