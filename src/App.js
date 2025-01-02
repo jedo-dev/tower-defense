@@ -93,13 +93,7 @@ function App() {
     );
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      moveEnemies();
-    }, 500); // Движение каждые 500 мс
-
-    return () => clearInterval(interval);
-  }, [grid]);
+ 
 
   useEffect(() => {
     const newGrid = initialGrid.map((row) => [...row]);

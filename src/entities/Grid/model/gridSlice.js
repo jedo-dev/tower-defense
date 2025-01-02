@@ -13,7 +13,7 @@ const gridSlice = createSlice({
     },
     placeTower(state, action) {
       const { x, y } = action.payload;
-      state.grid[y][x] = 1; // Устанавливаем башню
+      state.grid[y][x] = 1; // Помечаем клетку как занятую башней
     },
   },
 });

@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "../../entities/Grid/ui/Grid";
 import { moveEnemies, applyDamage } from "../../features/Enemy/model/enemySlice";
 import { placeTower } from "../../entities/Grid/model/gridSlice";
-
+import  '../../index.css'
+import { TowerSelection } from "../../widget/TowerSelection/TowerSelection";
 const GamePage = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.grid.grid);
   const enemies = useSelector((state) => state.enemies.enemies);
+  const [draggedTower, setDraggedTower] = useState(null);
 
+  const handleTowerDragStart = (towerType) => {
+    setDraggedTower(towerType);
+  };
   const handleCellClick = (row, col) => {
     dispatch(placeTower({ x: col, y: row }));
   };
@@ -17,7 +22,7 @@ const GamePage = () => {
     const interval = setInterval(() => {
       dispatch(moveEnemies({ grid }));
       dispatch(applyDamage({ towers: getTowerPositions(grid) }));
-    }, 500);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [dispatch, grid]);
@@ -31,10 +36,14 @@ const GamePage = () => {
     }, []);
 
   return (
-    <div>
-      <h1>Tower Defense Game</h1>
+    <>
+      <div className="enemy-spawn"></div>
       <Grid onCellClick={handleCellClick} enemies={enemies} />
-    </div>
+      <TowerSelection onTowerDragStart={handleTowerDragStart} /> 
+      <div>
+        
+      </div>
+    </>
   );
 };
 

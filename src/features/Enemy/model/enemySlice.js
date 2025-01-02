@@ -3,7 +3,7 @@ import { aStarPathfinding } from "../lib/pathfinding";
 
 const initialState = {
   enemies: [
-    { id: 1, x: 0, y: 0, health: 100 },
+   
   ],
   target: { x: 9, y: 9 },
 };
@@ -26,6 +26,9 @@ const enemySlice = createSlice({
         return enemy;
       });
     },
+    addEnemy(state,action){
+      state.enemies.push( { id: action.payload.id, x: 0, y: 0, health: 100,totalHealth:100 },)
+    },
     applyDamage(state, action) {
       const { towers } = action.payload;
       state.enemies = state.enemies.map((enemy) => {
@@ -43,5 +46,5 @@ const enemySlice = createSlice({
   },
 });
 
-export const { moveEnemies, applyDamage } = enemySlice.actions;
+export const { moveEnemies, applyDamage, addEnemy } = enemySlice.actions;
 export default enemySlice.reducer;
