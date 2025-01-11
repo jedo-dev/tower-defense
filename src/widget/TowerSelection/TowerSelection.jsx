@@ -1,12 +1,14 @@
+import { useSelector } from 'react-redux';
 import img1 from '../../../src/assets/tower-1.png'
 import img2 from '../../../src/assets/tower-2.png'
 import img3 from '../../../src/assets/tower-3.png'
 import img4 from '../../../src/assets/tower-4.png'
-export const TowerSelection = () => {
+export const TowerSelection = ({onTowerDragStart}) => {
+  const playerData = useSelector((state) => state.player);
   return (
     <div className="tower-selection-container">
       <div className="towers">
-        <div className="tower">
+        <div className="tower" onDragStart={()=>onTowerDragStart('start')} onDragOver={()=>onTowerDragStart('lowest')} onDrop={()=>onTowerDragStart('ondrop')}>
           <div className="tower-icon"><img src={img1} height={105} style={{marginBottom: '40px'}} /></div>
           <div className="tower-price">
           <div className='tower-price-label'>
@@ -41,12 +43,12 @@ export const TowerSelection = () => {
       </div>
       <div className="resources">
         <div className="resource">
-        <div className="resource-count">12</div>
+        <div className="resource-count">{playerData.gold}</div>
           <div className="resource-icon gold"></div>
         
         </div>
         <div className="resource">
-        <div className="resource-count">12</div>
+        <div className="resource-count">{playerData.wood}</div>
           <div className="resource-icon wood"></div>
           
         </div>
