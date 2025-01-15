@@ -19,6 +19,7 @@ color:#202929
 #root{
   width: 640px;
   height: inherit;
+  margin: 0 auto;
 }
 .enemy-spawn{
   background-image: url(/src/assets/sand.png);

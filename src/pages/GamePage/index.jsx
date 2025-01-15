@@ -7,9 +7,11 @@ import  '../../index.css'
 import { TowerSelection } from "../../widget/TowerSelection/TowerSelection";
 import { uid } from "uid";
 import { NextRoundBanner } from "../../widget/NextRoundBanner/NextRoundBanner";
+import { endRound } from "../../entities/Round/model/roundSlice";
 const GamePage = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.grid.grid);
+  const {roundStart} = useSelector((state) => state.round);
   const enemies = useSelector((state) => state.enemies.enemies);
   
   const [draggedTower, setDraggedTower] = useState(null);
@@ -27,9 +29,12 @@ const GamePage = () => {
       dispatch(applyDamage({ towers: getTowerPositions(grid) }));
       // dispatch(addEnemy({id:uid()}))
     }, 1000);
-
+      console.log(`index js `, enemies ,roundStart)
+    if(enemies.length === 0 && roundStart){
+      dispatch(endRound())
+    }
     return () => clearInterval(interval);
-  }, [dispatch, grid]);
+  }, [ grid]);
 
   const getTowerPositions = (grid) =>
     grid.reduce((acc, row, y) => {
